@@ -19,7 +19,7 @@ class StoreProdutoRequest extends FormRequest
             'descricao' => ['nullable', 'string'],
             'preco' => ['required', 'numeric', 'min:0'],
             'stock' => ['required', 'integer', 'min:0'],
-            'imagem' => ['nullable', 'string'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'ativo' => ['boolean'],
         ];
     }

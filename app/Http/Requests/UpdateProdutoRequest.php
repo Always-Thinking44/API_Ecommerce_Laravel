@@ -19,7 +19,7 @@ class UpdateProdutoRequest extends FormRequest
             'descricao' => ['nullable', 'string'],
             'preco' => ['sometimes', 'required', 'numeric', 'min:0'],
             'stock' => ['sometimes', 'required', 'integer', 'min:0'],
-            'imagem' => ['nullable', 'string'],
+            'imagem' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'ativo' => ['boolean'],
         ];
     }

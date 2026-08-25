@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProdutoRequest;
 use App\Http\Resources\ProdutoResource;
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProdutoController extends Controller
@@ -49,6 +50,10 @@ class ProdutoController extends Controller
         $data = $request->validated();
         $data['slug'] = Str::slug($data['nome']) . '-' . uniqid();
 
+        if ($request->hasFile('imagem')) {
+            $data['imagem'] = $request->file('imagem')->store('produtos', 'public');
+        }
+
         $produto = Produto::create($data);
 
         return new ProdutoResource($produto->load('categoria'));
@@ -60,6 +65,13 @@ class ProdutoController extends Controller
 
         if (isset($data['nome'])) {
             $data['slug'] = Str::slug($data['nome']) . '-' . uniqid();
+        }
+
+        if ($request->hasFile('imagem')) {
+            if ($produto->imagem) {
+                Storage::disk('public')->delete($produto->imagem);
+            }
+            $data['imagem'] = $request->file('imagem')->store('produtos', 'public');
         }
 
         $produto->update($data);
