@@ -16,8 +16,8 @@ class EncomendaController extends Controller
     // GET /api/encomendas — histórico do próprio utilizador
     public function index(Request $request)
     {
-        $encomendas = $request->user()
-            ->encomendas()
+        $query = $request->user()->isAdmin() ? Encomenda::query() : $request->user()->encomendas();
+        $encomendas = $query
             ->with(['itens.produto', 'pagamento'])
             ->orderByDesc('created_at')
             ->paginate(10);
