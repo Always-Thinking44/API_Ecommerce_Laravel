@@ -33,4 +33,4 @@ RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf /etc/apache2/sites-available
 
 EXPOSE 10000
 
-CMD bash -c "php artisan config:cache && php artisan route:cache && apache2-foreground"
+CMD bash -c "php artisan config:cache && php artisan route:cache && php artisan migrate --force && php artisan db:seed --class=AdminSeeder --force && apache2-foreground"
